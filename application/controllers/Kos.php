@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 use chriskacerguis\RestServer\RestController;
 
-class Gundam extends RestController {
+class Kos extends RestController {
 
     public function __construct()
 	{
@@ -17,10 +17,10 @@ class Gundam extends RestController {
         if($id === null){
             $p = $this->get('page', true);
             $p = (empty($p) ? 1 : $p);
-            $total_data = $this->gnd->count();
+            $total_data = $this->kos->count();
             $total_page = ceil($total_data / 5);
             $start = ($p - 1) * 5;
-            $list = $this->gnd->get(null, 5, $start);
+            $list = $this->kos->get(null, 5, $start);
             if($list){
                 $data = [
                     'status' => true,
@@ -39,12 +39,12 @@ class Gundam extends RestController {
             }
            
 
-            //$list = $this->gnd->get();
+            //$list = $this->kos->get();
             $this->response($data,RestController::HTTP_OK);
         }
         else{
-            $data = $this->gnd->get($id);
-            //$list = $this->gnd->get();
+            $data = $this->kos->get($id);
+            //$list = $this->kos->get();
             if($data){
                 $this->response(['status'=>true, 'data'=>$data],RestController::HTTP_OK);
             }
@@ -64,7 +64,7 @@ class Gundam extends RestController {
         'asal' => $this->post('asal', true),
         'pekerjaan' => $this->post('pekerjaan', true)
       ];
-      $simpan = $this->gnd->add($data);
+      $simpan = $this->kos->add($data);
       if ($simpan['status']) {
         $this->response(['status' => true, 'msg' => $simpan['data'] . ' Data telah ditambahkan'], RestController::HTTP_CREATED);
       } else {
@@ -84,7 +84,7 @@ class Gundam extends RestController {
       if ($id === null) {
         $this->response(['status' => false, 'msg' => 'Masukkan data nomor kamar kos yang akan dirubah'], RestController::HTTP_BAD_REQUEST);
       }
-      $simpan = $this->gnd->update($id, $data);
+      $simpan = $this->kos->update($id, $data);
       if ($simpan['status']) {
         $status = (int)$simpan['data'];
         if ($status > 0)
@@ -102,7 +102,7 @@ class Gundam extends RestController {
     if ($id === null) {
       $this->response(['status' => false, 'msg' => 'Masukkan data kamar kos yang akan dihapus'], RestController::HTTP_BAD_REQUEST);
     }
-    $delete = $this->gnd->delete($id);
+    $delete = $this->kos->delete($id);
     if ($delete['status']) {
       $status = (int)$delete['data'];
       if ($status > 0)
